@@ -23,7 +23,7 @@ public class Main {
         }
 
         for (var student : students)
-            System.out.println(student.toString(InfoType.PrivateInfo));
+            System.out.println(student.toString(InfoType.AllInfo));
 
 //        var stud = vkapi.getUserInfo("3228491", "198188261");
 //        var stud = vkapi.getUserInfo("185118702", "208866240"); //my id

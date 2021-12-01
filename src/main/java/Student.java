@@ -42,7 +42,7 @@ public class Student extends Person {
     public String toString(InfoType infoType) {
         switch (infoType){
             case AllInfo:
-                return String.format("%s %s \t %s \t %s", super.getName(), super.getSurname(), super.getStringBirthdate(), convertSubjectsArrayToString());
+                return String.format("%s %s \t %s \t %s \t %s", super.getName(), super.getSurname(), super.getStringBirthdate(), super.getCity(), convertSubjectsArrayToString());
 
             case PrivateInfo:
                 return String.format("%d %s %s \t %s \t %s", super.getId(), super.getName(), super.getSurname(), super.getStringBirthdate(), super.getCity());
