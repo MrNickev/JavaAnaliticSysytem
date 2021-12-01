@@ -28,7 +28,7 @@ public class vkApi {
         this.actor = new UserActor(appId, accessToken);
     }
 
-    public List<Integer> getGroupMembers(String group_id) throws IOException, ClientException, ApiException {
+    private List<Integer> getGroupMembers(String group_id) throws IOException, ClientException, ApiException {
 
         var list = vkapi.groups().getMembers(actor).groupId(group_id).execute().getItems();
         return list;
@@ -40,12 +40,13 @@ public class vkApi {
         var studentList = new ArrayList<Student>();
 
         usersId.forEach(id -> stringsId.add(String.valueOf(id)));
-        var userList = vkapi.users().get(actor).userIds(stringsId).fields(Fields.BDATE).execute();
+        var userList = vkapi.users().get(actor).userIds(stringsId).fields(Fields.BDATE, Fields.CITY).execute();
         for (var user : userList) {
             var json = new JsonParser().parse(user.toString()).getAsJsonObject();
             if (json.get("first_name") == null || json.get("last_name") == null)
                 continue;
             GregorianCalendar bdate = null;
+
             if (json.get("bdate") != null) {
                 var str = json.get("bdate").getAsString();
                 var parsedDate = json.get("bdate").getAsString().split("\\.");
@@ -53,7 +54,14 @@ public class vkApi {
                 Arrays.stream(parsedDate).forEach(s -> date.add(Integer.parseInt(s)));
                 bdate = new GregorianCalendar(date.get(2), date.get(1), date.get(0));
             }
-            studentList.add(new Student(json.get("first_name").getAsString(), json.get("last_name").getAsString(), "Ekb", bdate));
+            String city = null;
+            var flag = json.get("city");
+            if (flag != null) {
+                var jsonCity = new JsonParser().parse(json.get("city").toString()).getAsJsonObject().get("title");
+                city = jsonCity == null ? null : jsonCity.toString();
+            }
+
+            studentList.add(new Student(Integer.parseInt(json.get("id").getAsString()), json.get("first_name").getAsString(), json.get("last_name").getAsString(), city, bdate));
         }
         return studentList;
     }
@@ -66,7 +74,7 @@ public class vkApi {
         for (var user : userList) {
             var json = new JsonParser().parse(user.toString()).getAsJsonObject();
             if (json.get("id").getAsString().equals(userId))
-                return json.toString();
+                return json.get("city").toString();
         }
         return new String();
     }

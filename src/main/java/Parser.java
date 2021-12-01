@@ -15,7 +15,7 @@ public class Parser {
             if (lineIndex > 2){
                 var parsedRow = parseRowToArray(line);
                 var studentNames = parsedRow.get(0).split(" ");
-                var student = new Student(studentNames[0], studentNames[1]);
+                var student = new Student(studentNames[1], studentNames[0]);
                 var groupName = parsedRow.get(1);
 
                 parsedRow.remove(0);
