@@ -12,7 +12,7 @@ public class Main {
         var filename = "D:\\projects\\JavaAnaliticSysytem\\java.csv";
         var students = Parser.ParseCSVFile(filename);
 //        for (var student: students) {
-//            System.out.println(student.toString());
+//            System.out.println(student.toString(InfoType.AllInfo));
 //        }
 
         var studentsFromVk = new vkApi().getUsersInfoFromGroup("208866240");
