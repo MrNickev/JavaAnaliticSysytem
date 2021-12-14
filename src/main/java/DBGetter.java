@@ -51,12 +51,9 @@ public class DBGetter {
     }
 
     public static void GetCityStat() throws SQLException {
-        statmt2 = conn.createStatement();
-        var cities = statmt.executeQuery("SELECT DISTINCT city FROM students");
+        var cities = statmt.executeQuery("SELECT city, count(city) as 'total' from students group by city");
         while (cities.next()) {
-            var cityName = cities.getString("city");
-            var count = statmt2.executeQuery("SELECT COUNT(*) AS total FROM students WHERE 'city'='"+ cityName +"';");
-            System.out.println(cityName + "\t" + count.getInt("total"));
+            System.out.println(cities.getString("city") + "\t" + cities.getInt("total"));
         }
     }
 }
