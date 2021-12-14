@@ -1,27 +1,53 @@
 
-import com.google.gson.JsonParser;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
+import org.sqlite.core.DB;
 
 import java.io.IOException;
-import java.util.Scanner;
+import java.sql.Array;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, ClientException, ApiException {
-//        var filename = "D:\\кодинг\\Projects\\JavaAnaliticSystem\\java.csv";
-//        var students = Parser.ParseCSVFile(filename);
+    public static void main(String[] args) throws IOException, ClientException, ApiException, SQLException, ClassNotFoundException {
+
+//        LoadDataToDB(ParseAllData());
+            DBGetter.Conn();
+//            DBGetter.GetStudentAchievmentStat();
+            DBGetter.GetCityStat();
+//            DBGetter.PrintThemes();
+    }
+
+
+    public static void LoadDataToDB(List<Student> students) throws SQLException, ClassNotFoundException {
+        DBStarter.Conn();
+//        DBStarter.CreateDB();
+        DBStarter.WriteDB((ArrayList<Student>) students);
+//        DBStarter.WriteDB(students.get(0));
+//        DBStarter.WriteDB(students.get(1));
+        DBStarter.CloseDB();
+    }
+
+    public static List<Student> ParseAllData() throws IOException, ClientException, ApiException {
+        var filename = "D:\\projects\\JavaAnaliticSysytem\\java.csv";
+        var students = Parser.ParseCSVFile(filename);
+
 //        for (var student: students) {
-//            System.out.println(student.toString());
+//            System.out.println(student.toString(InfoType.AllInfo));
 //        }
-        var vkapi = new vkApi();
-        var stud = vkapi.getUserInfo("3228491", "198188261");
-        System.out.println(stud);
-//        var stud = vkapi.getUsersInfoFromGroup("208866240").get(1);
-//        System.out.println(stud.toString());
-//        var user = "{\"bdate\":\"27.1.2003\",\"city\":{\"id\":1253,\"title\":\"Трехгорный\"},\"first_name\":\"Никита\",\"id\":185118702,\"last_name\":\"Зайцев\",\"can_access_closed\":true,\"is_closed\":false}";
-//        System.out.println(new JsonParser().parse(user).getAsJsonObject().get("bdate").getAsString());
-//        System.out.println(stud.getName() + " " + stud.getSurname() + " " + stud.getBirthdate().toString());
+
+        var studentsFromVk = new vkApi().getUsersInfoFromGroup("198188261");
+        for (var student : students) {
+            for (var studentVk : studentsFromVk)
+                if (studentVk.getName().equals(student.getName()) && studentVk.getSurname().equals(student.getSurname()))
+                    student.addInfo(studentVk);
+        }
+
+//        for (var student : students)
+//            System.out.println(student.toString(InfoType.SubjectInfo));
+        return studentsFromVk;
     }
 
 }

@@ -7,6 +7,7 @@ public class Theme {
     private Integer[] scores;
     private int totalScore;
     private int scoresCount;
+    private String[] taskNames;
 
     public Theme(String name, int scoresCount) {
         this.scoresCount = scoresCount;
@@ -27,6 +28,9 @@ public class Theme {
         return (name == theme.name && scoresCount == theme.scoresCount);
 
     }
+
+    public void setThemeNames(String[] themeNames) {this.taskNames = themeNames;}
+    public String[] getTaskNames() {return taskNames;}
 
     public String toString() {
         return name + " " + totalScore;

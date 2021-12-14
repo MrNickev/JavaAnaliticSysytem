@@ -21,6 +21,12 @@ public class Subject {
 
     }
 
+    public String getGroupName() {return groupName;}
+
+    public String getName() {return name;}
+
+    public ArrayList<Theme> getThemes() {return themes;}
+
     private String getThemesString() {
         var sb = new StringBuilder();
         for (var theme : themes) {
