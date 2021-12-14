@@ -11,7 +11,7 @@ public class Parser {
         var students = new ArrayList<Student>(fileLines.size()-1);
         var lineIndex = 0;
         for (var line : fileLines) {
-            themes = parseThemesRow(fileLines.get(0));
+            themes = parseThemesRow(fileLines.get(0), fileLines.get(1));
             if (lineIndex > 2){
                 var parsedRow = parseRowToArray(line);
                 var studentNames = parsedRow.get(0).split(" ");
@@ -41,19 +41,29 @@ public class Parser {
         return new ArrayList<>(Arrays.asList(str.split(";")));
     }
 
-    public static ArrayList<Theme> parseThemesRow(String str) {
+    public static ArrayList<Theme> parseThemesRow(String str, String tasksRow) {
         var list = new ArrayList<Theme>();
         var splitted = str.split(";", -1);
+        var splittedTasks = tasksRow.split(";", -1);
         String themeName = "";
         var scoresCount = 0;
+        var taskNames = new ArrayList<String>();
         for (var i = 3; i < splitted.length; i++) {
             if (!splitted[i].equals("") || i == splitted.length - 1) {
-                if (!(themeName.equals("")))
-                    list.add(new Theme(themeName, scoresCount));
+                if (!(themeName.equals(""))) {
+                    var theme = new Theme(themeName, scoresCount);
+                    theme.setThemeNames(taskNames.toArray(new String[0]));
+                    list.add(theme);
+                }
+
                 themeName = splitted[i];
                 scoresCount = 0;
+                taskNames = new ArrayList<>();
             }
-            else scoresCount++;
+            else {
+                scoresCount++;
+                taskNames.add(splittedTasks[i]);
+            }
         }
 
         return list;

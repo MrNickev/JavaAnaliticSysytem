@@ -1,6 +1,8 @@
 public enum InfoType {
     AllInfo,
     PrivateInfo,
-    SubjectWithMarks
+    SubjectWithMarks,
+    PrivateWithPhoto,
+    SubjectInfo
 
 }

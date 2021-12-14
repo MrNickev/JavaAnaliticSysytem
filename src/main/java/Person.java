@@ -6,18 +6,40 @@ public abstract class Person {
     private Calendar birthdate;
     private String city;
     private int id;
+    private String photoUrl;
+    private String sex;
 
-    public Person(int id, String name, String surname, Calendar birthdate, String city) {
+    public Person(int id, String name, String surname, Calendar birthdate, String city, String photoURL, String sex) {
         this.birthdate = birthdate;
-        this.city = city.substring(1, city.length()-1);
+        if (city != null)
+            this.city = city.substring(1, city.length()-1);
         this.name = name;
         this.surname = surname;
         this.id = id;
+        this.photoUrl = photoURL;
+        this.sex = sex;
     }
 
     public Person(String name, String surname) {
         this.name = name;
         this.surname = surname;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhototUrl(String photoUrl) {
+        if (!(photoUrl == null || photoUrl.equals("")))
+            this.photoUrl = photoUrl;
     }
 
     public String getName() {
@@ -33,8 +55,8 @@ public abstract class Person {
     }
 
     public String getStringBirthdate() {
-        if (birthdate == null) return "None";
-        return String.format("%d.%d.%d", birthdate.get(Calendar.DATE), birthdate.get(Calendar.MONTH), birthdate.get(Calendar.YEAR));
+        if (birthdate == null) return null;
+        return String.format("%d-%d-%d", birthdate.get(Calendar.YEAR), birthdate.get(Calendar.MONTH), birthdate.get(Calendar.DATE));
     }
 
     public Calendar getBirthdate() {
