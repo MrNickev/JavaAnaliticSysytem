@@ -6,18 +6,23 @@ import org.sqlite.core.DB;
 import java.io.IOException;
 import java.sql.Array;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, ClientException, ApiException, SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClientException, ApiException, SQLException, ClassNotFoundException, ParseException {
 
 //        LoadDataToDB(ParseAllData());
-            DBGetter.Conn();
+//            DBGetter.Conn();
 //            DBGetter.GetStudentAchievmentStat();
-            DBGetter.GetCityStat();
+//            DBGetter.GetCityStat();
 //            DBGetter.PrintThemes();
+        var viewer = new Viewer();
+//        viewer.CreateAndShowGUI();
+//        DBGetter.getAgeStat();
+
     }
 
 
